@@ -24,24 +24,23 @@ impl JobApi {
 
             // /api/run_task
             api.get("run_task", |endpoint| {
-
                 endpoint.handle(|client, _params| {
                     println!("Request: /api/run_task");
                     client.text("Running Task".to_string())
-
                 })
             });
 
             // /api/create_task
-            api.get("create_task", |endpoint| {
+            api.post("create_task", |endpoint| {
+                endpoint.params(|params| {
+                    params.req_typed("task_name", json_dsl::string());
+                });
 
                 endpoint.handle(|client, _params| {
                     println!("Request: /api/create_task");
                     client.text("Creating Task".to_string())
-
                 })
             });
-
         });
 
         // new Iron Server Application based on MIO
